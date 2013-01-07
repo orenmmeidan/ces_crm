@@ -60,7 +60,10 @@ class Query{
 		}
 		return $result_set;
 	}
-
+	function run_special_query ($query,$debug=false){
+			$result = $this->run_query($query,$debug);
+	  		return $this->createResultsArray($result);
+	}
 	function quote_smart($value){
 		// Quote variable to make safe
 		
