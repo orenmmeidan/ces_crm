@@ -131,25 +131,25 @@ class Crm extends Query {
                 $filter .= "hot leads";
                 break;
             case 'cool_leads':
-                $filter .= " AND `HotWarmCool`='cool'";
+                $filter .= "cool leads";
                 break;
             case 'dc_leads':
-                $filter .= " AND `Type`='dc'";
+                $filter .= "DC leads";
                 break;
             case 'we_leads':
-                $filter .= " AND `Type`='dc'";
+                $filter .= "World Energy leads";
                 break;
             case 'walkins':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "Walk ins";
                 break;
             case 'se_leads':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "Solar Energy leads";
                 break;
             case 'prospects':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "Prospects";
                 break;
             case 'fu':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "Follow up";
                 break;
             case 'wel':
                 $filter .= " AND `HotWarmCool`='hot'";
@@ -161,16 +161,16 @@ class Crm extends Query {
                 $filter .= "";
                 break;
             case 'condo':
-                $filter .= "AND `HotWarmCool`='hot'";
+                $filter .= "Condo list";
                 break;
             case 'prospects_list':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "Prospects";
                 break;
             case 'dc':
                 $filter .= " AND `HotWarmCool`='hot'";
                 break;
             case 'aep':
-                $filter .= " AND `Type`='aep'";
+                $filter .= "AEP";
                 break;
             default:
                 $filter .= "";
@@ -204,9 +204,7 @@ class Crm extends Query {
 		"
 		;
 		$rows             =$this->run_special_query( $query, false );
-		echo $query;
-        //print_r($rows);
-        //echo sizeof($rows);
+		//echo $query;
         $table_titles_arr = array(
              "Company Name",
             "Description",
