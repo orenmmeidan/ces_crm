@@ -133,7 +133,6 @@ class Query{
 	  $query .= $this->setFields($fields);
 	  if ($where)  $query .= " WHERE $where ";
 	  if ($limit)  $query .= " LIMIT $limit";
-	
 	  $result = $this->run_query($query,$debug);
 	  return $result;
 	}

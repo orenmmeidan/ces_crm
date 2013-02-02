@@ -85,7 +85,7 @@ position: relative;
 #tabs ul li.curr_class a{background:#fff; color:#000;}
 #leads_table_cont{width:100%;margin: 40px 0 200px 0;}
 #leads_table_cont th{ text-align: center;}
-#leads_table_cont tr.deleted_row,#leads_table_cont tr.deleted_row textarea{ background: pink;}
+.deleted_row,.deleted_row textarea{ background: pink;}
 #leads_table_cont thead {/* position:fixed;top:40px;*/}
 #content{
 width: 100%;
@@ -104,14 +104,20 @@ textarea.size_200{width: 200px;}
 input[type=submit]{padding: 5px;}
 
 /* Login Section*/
-.form_div{ width:25%; border:2px solid #ccc; -moz-border-radius: 5px;border-radius: 5px; margin: 50px auto; padding: 0 0 20px 0; position: relative;  }
+#login_div{width:25%;}
+.form_div{border:2px solid #ccc; -moz-border-radius: 5px;border-radius: 5px; margin: 50px auto; padding: 0 0 20px 0; position: relative;  }
 .form_div h2{ width:100%; background: #eee; padding: 10px 0;}
 .form_div  h2 em{ padding: 5px 0 5px 20px; font-style:normal;}
 .form_div form{ margin:20px 20px 0 20px;}
 .form_div label{display:block; float:left;clear:left; width:90px; margin-bottom: 10px;}
-.form_div input[type='text'],form_div input[type='password'],.form_div select{float:left;  width:150px; margin-bottom: 10px;}
+.form_div input[type='text'],.form_div input[type='password'],.form_div select{float:left;  width:150px; margin-bottom: 10px;}
 .form_div input[type='submit']{ display:block; clear:both;}
 p.error{ padding: 5px; background:pink; border: 1px solid red;}
 p.error span{ display: block;}
 p.success{ padding: 5px; background:#00FF33; border: 1px solid green; }
 
+/*users section*/
+
+#DisplayUsersArea{ float:left;}
+#UserFormArea{ float:left;}
+#UserFormArea .form_div{ margin: 0 20px; padding: 0 0 20px 0; }

@@ -15,11 +15,12 @@ class Crm extends Query {
                 "white_tab",
                 "exp" 
             ),
-            array(
+       /*     array(
                  "All Leads",
                 "white_tab",
                 "all_leads" 
             ),
+	    * */
             array(
                  "Hot Leads",
                 "white_tab",
@@ -128,49 +129,61 @@ class Crm extends Query {
                 $filter .= "";
                 break;
             case 'hot_leads':
-                $filter .= "hot leads";
-                break;
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='hot'";
+				break;
             case 'cool_leads':
-                $filter .= "cool leads";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='cool'";
                 break;
             case 'dc_leads':
-                $filter .= "DC leads";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='dc'";
+                $WhichTab = 'dc';
                 break;
             case 'we_leads':
-                $filter .= "World Energy leads";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='World Energy leads'";
+				$WhichTab = 'World Energy leads';
                 break;
             case 'walkins':
-                $filter .= "Walk ins";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Walk ins'";
+				$WhichTab = 'Walk ins';
                 break;
             case 'se_leads':
-                $filter .= "Solar Energy leads";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Solar Energy leads'";
+				$WhichTab = 'Solar Energy leads';
                 break;
             case 'prospects':
-                $filter .= "Prospects";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Prospects'";
+				$WhichTab = 'Prospects';
                 break;
             case 'fu':
-                $filter .= "Follow up";
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Follow up'";
+				$WhichTab = 'Follow up';
                 break;
             case 'wel':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "`Type`='World Energy leads'";
+				$WhichTab = 'World Energy leads';
                 break;
             case 'sel':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "`Type`='Solar Energy leads'";
+				$WhichTab = 'Solar Energy leads';
                 break;
             case 'll':
                 $filter .= "";
                 break;
             case 'condo':
-                $filter .= "Condo list";
+                $filter .= "`Type`='Condo list'";
+				$WhichTab = 'Condo list';
                 break;
             case 'prospects_list':
-                $filter .= "Prospects";
+                $filter .= "`Type`='Prospects'";
+				$WhichTab = 'Prospects';
                 break;
             case 'dc':
-                $filter .= " AND `HotWarmCool`='hot'";
+                $filter .= "`Type`='dc'";
+                $WhichTab = 'dc';
                 break;
             case 'aep':
-                $filter .= "AEP";
+                $filter .= "`Type`='AEP'";
+                $WhichTab = 'AEP';
                 break;
             default:
                 $filter .= "";
@@ -181,20 +194,21 @@ class Crm extends Query {
         } elseif ( $tab == "ces_clients" ) {
             $buffer = $this->prepare_for_display_clients( $filter );
         } else {
-            $buffer = $this->prepare_for_display( $filter,$view_deleted );
+            $buffer = $this->prepare_for_display( $filter,$view_deleted, $WhichTab );
         }
         return $buffer;
     }
-    private function prepare_for_display( $filter,$view_deleted ) {
+    private function prepare_for_display( $filter,$view_deleted, $WhichTab ) {
        	if ( $view_deleted == '1' ) {
-            $filter_deleted = "`row_status`='1'";
+            $filter_deleted = " AND `row_status`='1'";
         } elseif ( $view_deleted == '3' ) {
-            $filter_deleted = "`row_status`='0'";
+            $filter_deleted = " AND `row_status`='0'";
         } elseif ( $view_deleted == '2' ) {
-            $filter_deleted = "`row_status`>='0'";
+            $filter_deleted = " AND `row_status`>='0'";
         }
-       // $rows             = $this->getRows( PREFIX . "leads", $filter, "", "", null, false );
-		$query = "SELECT * FROM " . PREFIX . "leads L
+		$filter.=$filter_deleted;
+        $rows             = $this->getRows( PREFIX . "leads", $filter, "", "", null, false );
+		/*$query = "SELECT * FROM " . PREFIX . "leads L
 		LEFT JOIN " . PREFIX . "leads_tabs_lookup LTL 
 		ON L.id = LTL.lead_id
 		LEFT JOIN " . PREFIX . "leads_tabs LT 
@@ -204,6 +218,8 @@ class Crm extends Query {
 		"
 		;
 		$rows             =$this->run_special_query( $query, false );
+		 
+		 */
 		//echo $query;
         $table_titles_arr = array(
              "Company Name",
@@ -273,6 +289,8 @@ class Crm extends Query {
         $buffer .= "<td><textarea name = 'Phone' class='size_150' id='-Phone'></textarea></td>";
         $buffer .= "<td><textarea name = 'FaxSecondNumberExt' class='size_150' id='-FaxSecondNumberExt'></textarea></td>";
         $buffer .= "<td><input type='submit' name='table' value='Insert'  id='add_row' / ></td>";
+        $buffer .= "<input type='hidden' name='sales_person_id' value='".$_SESSION['user_id']."'  id='sales_person_id' / >";
+        $buffer .= "<input type='hidden' name='Type' value='".$WhichTab."'  id='Type' / >";
         $buffer .= "
 		</tr></tbody></table></form></div>";
         return $buffer;

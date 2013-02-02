@@ -40,14 +40,14 @@ echo $CRM1->prepare_tabs($curr_tab);
 ?>
 </div><!--#tabs-->
 
-<div id="leads_table_cont">
-	<div class="scrollableContainer">
-		<div class="scrollingArea">
+
+			
+		<div id="DisplayUsersArea">
 		<?php
 		if($curr_tab=="users" && $_SESSION['user_type']==1)
 			{
 				$files_arr_js = array("users.js");
-				echo $Adminuser1->ProcessUser($_POST);	
+					
 				echo $Adminuser1->DisplayUsers();
 			}
 			else
@@ -55,9 +55,18 @@ echo $CRM1->prepare_tabs($curr_tab);
 				echo $CRM1->prepare_leads_table($curr_tab, $view_deleted);
 			}
 		?>
-		</div><!--.crollingArea-->
-	</div><!--.scrollableContainer-->
-</div><!--#leads_table_cont-->
+			</div><!--#DisplayUsersArea-->
+			<div id="UserFormArea">
+			<?php
+			if($_POST['submit']){
+				echo $Adminuser1->ProcessUser($_POST);
+			}
+			if($_POST['submit_edit_user']){
+				echo $Adminuser1->ProcessEditUser($_POST);
+			}
+			?>
+			</div>
+		
 
 <?php	
 $content_body = ob_get_contents();
