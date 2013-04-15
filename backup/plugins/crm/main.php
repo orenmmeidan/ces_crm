@@ -4,13 +4,6 @@ $files_arr_js = array("js.js");
 $CRM1 = new Crm(true);
 $curr_tab = ($_GET['tab'])?$_GET['tab']:"";
 $view_deleted= ($_POST['view_deleted'])?$_POST['view_deleted']:"1";
-
-$moveToSelect= ($_POST['moveToSelect'])?$_POST['moveToSelect']:false;
-$moveTo=$_POST['moveTo'];
-if ($moveToSelect && !empty($moveTo)){
-   foreach ($moveTo as $id) $CRM1->move_row_to_new_tab($moveToSelect, $id);
-}
-
 ob_start();
 ?>
 <div id="tabs">
@@ -25,7 +18,7 @@ ob_start();
 if($_SESSION['user_type']==1){
 	?>
 	
-	<select name="view_deleted" id='view_deleted'>
+	<select name="view_deleted">
 		<option  value="1" <?php echo ($view_deleted=="1")?"selected":"";?>>live rows</option>
 		<option  value="3" <?php echo ($view_deleted=="3")?"selected":"";?>>deleted rows</option>
 		<option  value="2"<?php echo ($view_deleted=="2")?"selected":"";?>>all rows</option>

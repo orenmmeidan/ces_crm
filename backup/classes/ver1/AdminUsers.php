@@ -34,7 +34,7 @@ class AdminUsers extends Query
         if ($pass == '') { //message - no password
             return "Login details incorrect";
         }
-
+        
         // I want to make sure that there are no sneaks trying to pass SQL queries!
         $user     = str_replace(' ', '', $user);
         // password is md5() encoded before comparison - no need to check value (might want spaces in password)
@@ -53,7 +53,7 @@ class AdminUsers extends Query
             // check if user account is active
             
             // check if connection is allowed
-
+            
             // check the password
             if ($password == $admin_user_details['password']) {
                 $_SESSION['user_id']   = $admin_user_details['id'];

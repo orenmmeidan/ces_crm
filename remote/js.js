@@ -4,9 +4,7 @@ $(document).ready(function () {
     function cellsaver() {
         var cell_arr = [];
         var the_data_o = {};
-		//this.the_url = "/plugins/crm/bin/functions.php";
-this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php"; 
-		//this.the_url = "http://localhost/ces_crm/plugins/crm/bin/functions.php";           
+        this.the_url = "http://localhost/ces_crm/plugins/crm/bin/functions.php";
 
         this.add_cells_to_arr = function (what) {
             cell_arr.push(what);
@@ -42,10 +40,6 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
         };
         this.insert_new_row = function () {
             var new_row_data_obj = $('#new_row_form').serializeObject();
-	    if (new_row_data_obj.HotWarmCool==',hot')  new_row_data_obj.HotWarmCool='hot';
-            if (new_row_data_obj.HotWarmCool==',cool')  new_row_data_obj.HotWarmCool='cool';
-            if (new_row_data_obj.HotWarmCool==',warm')  new_row_data_obj.HotWarmCool='warm';
-
             new_row_data_obj["table"] = $('#table').attr("class");
             var new_row_data_obj = JSON.stringify(new_row_data_obj);
             this.new_row_to_server(new_row_data_obj);
@@ -54,7 +48,6 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
         $.fn.serializeObject = function () {
             var o = {};
             var a = this.serializeArray();
-	    
             $.each(a, function () {
                 if (o[this.name] !== undefined) {
                     if (!o[this.name].push) {
@@ -69,7 +62,7 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
         };
 
         this.send_to_server = function (the_data) {
-
+           // alert(the_data);
             $.ajax({
                 type: "POST",
                 url: this.the_url+"?action=update",
@@ -77,7 +70,7 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
                     json: the_data
                 },
                 success: function (data) {
-                   console.log(data);
+                   // alert(data);
                     if (data == 1) {
                         $("#controlpanel_message").html("Content Saved");
                         $('#controlpanel_message').fadeIn();
@@ -92,6 +85,7 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
 
         }
         this.new_row_to_server = function (the_data) {
+            //alert(the_data);
             $.ajax({
                 type: "POST",
                 url: this.the_url+"?action=insert",
@@ -99,12 +93,12 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
                     json: the_data
                 },
                 success: function (data) {
+                	//alert(data);
                     if (data) {
                         var obj = jQuery.parseJSON(data);
                         if (typeof (obj.new_id) == "number" && obj.new_id > 1) {
                             $("#new_row_form textarea").val("");
-//                            $("#table tbody").prepend(obj.new_row_content);
-			    $(obj.new_row_content).insertAfter("#table tbody tr:first");
+                            $("#table tbody").append(obj.new_row_content);
                         }
                     }
 
@@ -198,15 +192,7 @@ this.the_url = "http://clearenergydata.com/plugins/crm/bin/functions.php";
       $('#dr_form').submit();
     });
 
-    $('.checkbox_class').change(function(){
-	var id=$(this).attr('id');
-	if ($(this).is(':checked')) $(this).parents("tr").css("background-color", 'pink');
-        else $(this).parents("tr").css("background-color", 'white');
-});  
 
-    setInterval(function() {
-			     oldBlue.shout();
-			   }, 500000);
 
 
 });

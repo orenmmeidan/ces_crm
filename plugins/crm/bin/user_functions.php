@@ -5,7 +5,7 @@ function __autoload($class_name)
  require_once SITE_DIR . "classes/ver1/".$class_name.".php";
 }
 require_once "../classes/Crm.php";
-$CRM1 = new Crm(true);
+$AdminUsers1 = new AdminUsers(true);
 	
 	
 	//get the json object from the ajax file
@@ -14,10 +14,15 @@ $CRM1 = new Crm(true);
 	//decode the json object
     $content_arr = json_decode($json);
 	
-	if($action=="insert"){
-	$result_arr = 	$CRM1->insert_row_to_table_table($content_arr);
-	$content_arr = json_encode($result_arr);
-	echo $content_arr;
+	if($action=="call_user_form"){
+		$UserArr = 	$AdminUsers1->GetUserFullDetails($content_arr);
+		$content_arr = json_encode($UserArr);
+		echo $content_arr;
+	}
+	else if($action=="crate_new_user_form"){
+		$UserArr = 	$AdminUsers1->CreateUserForm("", "");
+		$content_arr = json_encode($UserArr);
+		echo $content_arr;
 	}
 	
 	

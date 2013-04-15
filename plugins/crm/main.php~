@@ -5,10 +5,11 @@ $CRM1 = new Crm(true);
 $curr_tab = ($_GET['tab'])?$_GET['tab']:"";
 $view_deleted= ($_POST['view_deleted'])?$_POST['view_deleted']:"1";
 
+var_dump($_POST);
+
 $moveToSelect= ($_POST['moveToSelect'])?$_POST['moveToSelect']:false;
-$moveTo=$_POST['moveTo'];
-if ($moveToSelect && !empty($moveTo)){
-   foreach ($moveTo as $id) $CRM1->move_row_to_new_tab($moveToSelect, $id);
+if ($moveToSelect){
+    
 }
 
 ob_start();

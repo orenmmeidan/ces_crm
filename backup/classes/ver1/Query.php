@@ -160,7 +160,6 @@ class Query{
 	   if ($orderby)  $orderby = " order by $orderby";
 	   if (!is_null($offset))  $offset = " offset $offset";
 	   $query = "select * from `$table` $where $orderby $limit $offset"; 
-//echo $query;
 	//echo $query."<br />";
 	   $result = $this->run_query($query,$debug);
 	   return $this->createResultsArray($result);
@@ -171,6 +170,7 @@ class Query{
 	   if ($limit)  $limit=" limit $limit";
 	   if ($orderby)  $orderby = " order by $orderby";
 	   $query = "select count(*) as num_records from $table $where $orderby $limit";
+	//echo $query;
 	   $result = $this->run_query($query,$debug);
 	   $ret=$this->createResultsArray($result);
 	   return $ret[0]['num_records'];

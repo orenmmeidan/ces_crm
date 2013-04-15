@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	function EditUser() {
 		this.the_data_o = {};
-		this.the_url = "http://clearenergydata.com/plugins/crm/bin/user_functions.php";
+		this.the_url = "http://localhost/ces_crm/plugins/crm/bin/user_functions.php";
 
 		this.test = function(what) {
 			alert(what);

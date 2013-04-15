@@ -153,11 +153,9 @@ class Crm extends Query {
                 break;
             case 'hot_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='hot'";
-                $this->WhichTab='hot';
-		break;
+				break;
             case 'cool_leads':
-                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='cool'"; 
-                $this->WhichTab='cool';
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='cool'";
                 break;
             case 'dc_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='dc'";
@@ -169,7 +167,7 @@ class Crm extends Query {
                 break;
             case 'walkins':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Walk ins'";
-				$this->WhichTab = 'Walk ins';
+				$this->hichTab = 'Walk ins';
                 break;
             case 'se_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Solar Energy leads'";
@@ -200,8 +198,7 @@ class Crm extends Query {
 				$this->WhichTab = 'Solar Energy leads';
                 break;
             case 'll':
-                $filter .= "`Type`='Lead list'";
-                               $this->WhichTab = 'Lead list';
+                $filter .= "";
                 break;
             case 'condo':
                 $filter .= "`Type`='Condo list'";
@@ -351,10 +348,7 @@ HHH;
         $new_row .= "<td><textarea name = 'FaxSecondNumberExt' class='size_150' id='-FaxSecondNumberExt'></textarea></td>";
         $new_row .= "<td><input type='submit' name='table' value='Insert'  id='add_row' / ></td>";
         $new_row .= "<input type='hidden' name='sales_person_id' value='".$_SESSION['user_id']."'  id='sales_person_id' / >";
-        if ($WhichTab == 'hot' || $WhichTab=='cool')  $name_id='HotWarmCool';
-        else $name_id='Type';
-
-        $new_row .= "<input type='hidden' name='$name_id' value='".$WhichTab."'  id='$name_id' / >";
+        $new_row .= "<input type='hidden' name='Type' value='".$WhichTab."'  id='Type' / >";
         $new_row .= "
                 </tr></tbody></table></form></div>";
 
@@ -605,10 +599,8 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
     private function get_new_row_content( $table_name, $id ) {
         $rows = $this->getRow( PREFIX . $table_name, "`id`='$id'", false );
         if ( $table_name == "leads" ) {
-            $checkbox_name_and_id = $id . '-MoveTo';
-            $the_id=$id;
-            $buffer .= "<tr>";
-            $buffer .= "<td style='padding:10px;'><input type='checkbox' class='checkbox_class' name='moveTo[]' id='$checkbox_name_and_id' value='$the_id' /></td>";
+            $buffer .= "<tr>
+			";
             $buffer .= "<td><textarea name = 'CompanyName' class='size_130' id='" . $rows[ 'id' ] . "-CompanyName'>" . $rows[ 'CompanyName' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'Description' class='size_200' id='" . $rows[ 'id' ] . "-Description'>" . $rows[ 'Description' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'HotWarmCool' class='size_100' id='" . $rows[ 'id' ] . "-HotWarmCool'>" . $rows[ 'HotWarmCool' ] . "</textarea></td>";
@@ -725,7 +717,6 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
                 $fields[ $key ] = $value;
             }
         }
-
         $new_id = $this->add( PREFIX . $table_name, $fields, true );
         if ( $new_id > 1 ) {
             $new_row_content = $this->get_new_row_content( $table_name, $new_id );

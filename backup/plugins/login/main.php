@@ -1,6 +1,4 @@
 <?
-
-
 if($_POST['submit'] ){
 	$user=$_POST['user'];
 	$pass=$_POST['pass'];
@@ -11,8 +9,6 @@ if($_POST['submit'] ){
 	}
 
 }
-
-//exit;
 $result = ($result)?"<p class='error'>$result</p>":"";
 ob_start();
 ?>

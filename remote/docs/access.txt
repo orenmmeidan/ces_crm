@@ -1,0 +1,4 @@
+server:localhost
+db:stotoren_crm
+user:stotoren_crm
+pass:bwOBC8eCAg^V

@@ -1,0 +1,123 @@
+@charset "utf-8";
+/* CSS Document */
+.clearfix:after {/*this will help the menu to push its container down and not overlapping it in firefox*/
+content: ""; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre,
+form, fieldset, input, p, blockquote, table, th, td, embed, object {
+padding: 0;
+margin: 0;
+}
+div{ display:block;}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+fieldset, img, abbr {
+border: 0;
+}
+address, caption, cite, code, em,
+h1, h2, h3, h4, h5, h6,th {
+font-style: normal;
+}
+ul {
+list-style: none;
+}
+caption, th {
+text-align: left;
+}
+a{ outline:none;}
+/***********************/
+/*Layout*/
+/***********************/
+body {
+background:#fff;
+font-family: Arial,Verdana, Helvetica, sans-serif;
+font-size: 12px;
+}
+#wrapper1{
+width: 100%;
+padding:0;
+min-height:800px;
+margin: 0 auto;
+background:#fff;
+}
+#footer{
+width: 100%;
+padding:0;
+min-height:30px;
+margin: 0 auto;
+background:#ccc;
+}
+#tabs{
+min-height:27px;
+position:fixed;
+bottom:0;
+width:100%;
+padding:0%;
+background:#2d2d2d;
+z-index: 100;
+}
+#controlpanel{
+height:30px;
+width:100%;
+padding:5px 0;
+background:#ccc;
+z-index: 100;
+position: relative;
+}
+#controlpanel_message{position:absolute;left:50px; top:10px;
+}
+#controlpanel_user{position:absolute;right:10px; top:10px;}
+#controlpanel_user form{ float:left;}
+#tabs ul li{ display:inline; float:left; padding:0; margin:0;}
+#tabs ul li a{ display:block; float:left; padding:5px 7px; margin:0 1px;text-decoration:none; color:#eee; background:#656464;}
+#tabs ul li a:hover{ background:#888;}
+#tabs ul li.red_tab a{background:#aa0505;}
+#tabs ul li.red_tab a:hover{ background:#800202;}
+#tabs ul li.curr_class a{background:#fff; color:#000;}
+#leads_table_cont{width:100%;margin: 40px 0 200px 0;}
+#leads_table_cont th{ text-align: center;}
+.deleted_row,.deleted_row textarea{ background: pink;}
+#leads_table_cont thead {/* position:fixed;top:40px;*/}
+#content{
+width: 100%;
+margin:20px 0;
+}
+#content p{
+margin:0 0 6px 0;
+}
+textarea.size_100{width: 100px;}
+textarea.size_110{width: 110px;}
+textarea.size_120{width: 120px;}
+textarea.size_130{width: 130px;}
+textarea.size_140{width: 140px;}
+textarea.size_150{width: 150px;}
+textarea.size_200{width: 200px;}
+input[type=submit]{padding: 5px;}
+
+/* Login Section*/
+#login_div{width:25%;}
+.form_div{border:2px solid #ccc; -moz-border-radius: 5px;border-radius: 5px; margin: 50px auto; padding: 0 0 20px 0; position: relative;  }
+.form_div h2{ width:100%; background: #eee; padding: 10px 0;}
+.form_div  h2 em{ padding: 5px 0 5px 20px; font-style:normal;}
+.form_div form{ margin:20px 20px 0 20px;}
+.form_div label{display:block; float:left;clear:left; width:90px; margin-bottom: 10px;}
+.form_div input[type='text'],.form_div input[type='password'],.form_div select{float:left;  width:150px; margin-bottom: 10px;}
+.form_div input[type='submit']{ display:block; clear:both;}
+p.error{ padding: 5px; background:pink; border: 1px solid red;}
+p.error span{ display: block;}
+p.success{ padding: 5px; background:#00FF33; border: 1px solid green; }
+
+/*users section*/
+
+#DisplayUsersArea{ float:left;}
+#UserFormArea{ float:left;}
+#UserFormArea .form_div{ margin: 0 20px; padding: 0 0 20px 0; }

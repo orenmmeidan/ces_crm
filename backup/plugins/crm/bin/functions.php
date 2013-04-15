@@ -10,15 +10,9 @@ $CRM1 = new Crm(true);
 	
 	
 	//get the json object from the ajax file
-	//$json = $_POST['json'];
+	$json = $_POST['json'];
 	$action = $_GET['action'];
-	
 	//decode the json object
-	if(get_magic_quotes_gpc()){
-	  $json = stripslashes($_POST['json']);
-	}else{
-	  $json = $_POST['json'];
-	}
     $content_arr = json_decode($json);
 
         if ($action=='load'){
@@ -36,7 +30,7 @@ $CRM1 = new Crm(true);
         }
 	
 	if($action=="update"){
-	//echo "update".$content_arr;		
+	//echo "update";		
 	echo  $CRM1->update_leads_table($content_arr);
 	
 	}

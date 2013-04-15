@@ -68,12 +68,7 @@ class Crm extends Query {
              array(
                  "Lost leads",
                 "white_tab",
-                "lol"
-            ),
-            array(
-                 "Hot Leads",
-                "red_tab",
-                "hl"
+                "lol" 
             ),
             array(
                  "World Energy Leads",
@@ -106,7 +101,7 @@ class Crm extends Query {
                 "dc" 
             ),
             array(
-                 "Ohio",
+                 "AEP",
                 "red_tab",
                 "aep" 
             ) 
@@ -135,12 +130,11 @@ class Crm extends Query {
       return $this->table;
     }
     public function get_filter($tab, $view_deleted){    
-
         $this->tab_param=$tab;
           if ( $tab == "exp" ) $this->table='expiration';
           elseif ( $tab == "ces_clients" ) $this->table='clients';
           else $this->table='leads';
-//        $this->the_limit=50;
+        $this->the_limit=50;
         switch ( $tab ) {
             case 'ces_clients':
                 $filter .= "";
@@ -153,11 +147,9 @@ class Crm extends Query {
                 break;
             case 'hot_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='hot'";
-                $this->WhichTab='hot';
-		break;
+				break;
             case 'cool_leads':
-                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='cool'"; 
-                $this->WhichTab='cool';
+                $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `HotWarmCool`='cool'";
                 break;
             case 'dc_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='dc'";
@@ -169,7 +161,7 @@ class Crm extends Query {
                 break;
             case 'walkins':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Walk ins'";
-				$this->WhichTab = 'Walk ins';
+				$this->hichTab = 'Walk ins';
                 break;
             case 'se_leads':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Solar Energy leads'";
@@ -183,14 +175,10 @@ class Crm extends Query {
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='Follow up'";
 				$this->WhichTab = 'Follow up';
                 break;
-            case 'lol':
+			 case 'lol':
                 $filter .= "`sales_person_id`='".$_SESSION['user_id']."' AND `Type`='lol'";
-                                $this->WhichTab = 'lol';
-                break;
-            case 'hl':
-                $filter .= "`HotWarmCool`='hot'";
-                                $this->WhichTab = 'hl';
-                 break;
+				$this->WhichTab = 'lol';
+                break;	
             case 'wel':
                 $filter .= "`Type`='World Energy leads'";
 				$this->WhichTab = 'World Energy leads';
@@ -200,8 +188,7 @@ class Crm extends Query {
 				$this->WhichTab = 'Solar Energy leads';
                 break;
             case 'll':
-                $filter .= "`Type`='Lead list'";
-                               $this->WhichTab = 'Lead list';
+                $filter .= "";
                 break;
             case 'condo':
                 $filter .= "`Type`='Condo list'";
@@ -223,7 +210,6 @@ class Crm extends Query {
                 $filter .= "";
                 break;
            }
-
             return $filter;
         }
 
@@ -238,23 +224,7 @@ class Crm extends Query {
           }
         return $buffer;
     }
-    public function get_tab_choices(){
-       return <<<HHH
-       Move To:<br />
-       <select name='moveToSelect' id='moveToSelect'>
-       <option value='hot_leads'>Hot Leads</option>
-       <option value='cool_leads'>Cool Leads</option>
-       <option value='dc_leads'>DC Leads</option>
-       <option value='we_leads'>World Energy Leads</option>
-       <option value='walkins'>Walk ins</option>
-       <option value='se_leads'>Solar Energy Leads</option>
-       <option value='prospects'>Prospects</option>
-       <option value='follow_up'>Follow up</option>
-       </select>
-       <input type='submit' value='Move' id='moveToButton' />
-HHH;
-    
-    }
+
 
     public function prepare_for_display_result_set($filter,$view_deleted,$offset=null, $limit=null) {
                if ( $view_deleted == '1' ) {
@@ -265,7 +235,6 @@ HHH;
             $filter_deleted = " AND `row_status`>='0'";
 	    }
                 $filter.=$filter_deleted;
-
             $rows = $this->getRows( PREFIX . "leads", $filter, "id desc", $limit, $offset, false );
 
                 /*$query = "SELECT * FROM " . PREFIX . "leads L
@@ -280,14 +249,10 @@ HHH;
             $rows =$this->run_special_query( $query, false );
            */
         $buffer='';
-        if (sizeof($rows)>0) $buffer.="<tr><td colspan='11' style='padding:10px;'>" . $this->get_tab_choices() . "</td></tr>";
         for ( $j = 0; $j < sizeof( $rows ); $j++ ) {
             $tr_class = ( $rows[ $j ][ 'row_status' ] == "0" ) ? "deleted_row" : "";
             $buffer .= "<tr class='" . $tr_class . "'>
                 ";
-            $checkbox_name_and_id = $rows[ $j ][ 'id' ] . '-MoveTo';
-            $the_id=$rows[ $j ][ 'id' ];
-            $buffer .= "<td style='padding:10px;'><input type='checkbox' class='checkbox_class' name='moveTo[]' id='$checkbox_name_and_id' value='$the_id' /></td>";
             $buffer .= "<td><textarea name = 'CompanyName' class='size_130' id='" . $rows[ $j ][ 'id' ] . "-CompanyName'>" . $rows[ $j ][ 'CompanyName' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'Description' class='size_200' id='" . $rows[ $j ][ 'id' ] . "-Description'>" . $rows[ $j ][ 'Description' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'HotWarmCool' class='size_100' id='" . $rows[ $j ][ 'id' ] . "-HotWarmCool'>" . $rows[ $j ][ 'HotWarmCool' ] . "</textarea></td>";
@@ -312,8 +277,7 @@ HHH;
     private function prepare_for_display( $filter,$view_deleted, $WhichTab) {
 
         $table_titles_arr = array(
-            "Move To",
-            "Company Name",
+             "Company Name",
             "Description",
             "Hot/Warm/Cool",
             "Last Contact Date",
@@ -335,10 +299,9 @@ HHH;
                 <form id='new_row_form'>
                 <table class='cruises scrollable' >
                 <tr>$header_row</tr>
-                <tbody>
+                <body>
                 <tr>
                 ";
-        $new_row .= "<td>&nbsp&nbsp;</td>";
         $new_row .= "<td><textarea name = 'CompanyName' class='size_130' id='-CompanyName'></textarea></td>";
         $new_row .= "<td><textarea name = 'Description' class='size_200' id='-Description'></textarea></td>";
         $new_row .= "<td><textarea name = 'HotWarmCool' class='size_100' id='-HotWarmCool'></textarea></td>";
@@ -351,39 +314,34 @@ HHH;
         $new_row .= "<td><textarea name = 'FaxSecondNumberExt' class='size_150' id='-FaxSecondNumberExt'></textarea></td>";
         $new_row .= "<td><input type='submit' name='table' value='Insert'  id='add_row' / ></td>";
         $new_row .= "<input type='hidden' name='sales_person_id' value='".$_SESSION['user_id']."'  id='sales_person_id' / >";
-        if ($WhichTab == 'hot' || $WhichTab=='cool')  $name_id='HotWarmCool';
-        else $name_id='Type';
-
-        $new_row .= "<input type='hidden' name='$name_id' value='".$WhichTab."'  id='$name_id' / >";
+        $new_row .= "<input type='hidden' name='Type' value='".$WhichTab."'  id='Type' / >";
         $new_row .= "
                 </tr></tbody></table></form></div>";
 
         $buffer = $new_row;
         $buffer      .= "<div id='table' class='leads'>
-                <form method='post' action=''>
 		<table class='cruises scrollable' >
 		<thead>
 		<tr>
-                                
+                
 		";
         $buffer .= "
 		</tr>
 		</thead>
-                <tbody>
+		<tbody>
 		";
-        //$the_limit=$this->the_limit;
-        //$the_offset=0;
-//        $buffer .= $this->prepare_for_display_result_set($filter,$view_deleted, $the_offset, $the_limit);
- $buffer .= $this->prepare_for_display_result_set($filter,$view_deleted);
+        $the_limit=$this->the_limit;
+        $the_offset=0;
+        $buffer .= $this->prepare_for_display_result_set($filter,$view_deleted, $the_offset, $the_limit);
         $buffer .= "</tbody></table>
-		</form></div>";
+		</div>";
         $buffer.=$this->getLoadJS();
         return $buffer;
     }
 
     private function getLoadJS(){
         $js="
-<!--        <input type='button' id='load' value='Load 50 more' />-->
+        <input type='button' id='load' value='Load 50 more' />
         <script>
         $(document).ready(function () {
           $('#load').live('click', function () {
@@ -492,9 +450,8 @@ HHH;
 		</thead>
 		<tbody>
 		";
-//        $the_offset=0;
-  //      $buffer.=$this->prepare_for_display_expiration_result_set($filter, $this->the_limit, $the_offset);
-$buffer.=$this->prepare_for_display_expiration_result_set($filter);
+        $the_offset=0;
+        $buffer.=$this->prepare_for_display_expiration_result_set($filter, $this->the_limit, $the_offset);
         $buffer .= "</tbody></table>
 		</div>";
         $buffer.=$this->getLoadJS();
@@ -593,10 +550,8 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
 		</thead>
 		<tbody>
 		";
-//        $the_offset=0;
-  //      $buffer.=$this->prepare_for_display_clients_result_set($filter, $this->the_limit, $the_offset);
- $buffer.=$this->prepare_for_display_clients_result_set($filter);
-
+        $the_offset=0;
+        $buffer.=$this->prepare_for_display_clients_result_set($filter, $this->the_limit, $the_offset);
         $buffer .= "</tbody></table>
 		</div>";
         $buffer.=$this->getLoadJS();
@@ -605,10 +560,8 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
     private function get_new_row_content( $table_name, $id ) {
         $rows = $this->getRow( PREFIX . $table_name, "`id`='$id'", false );
         if ( $table_name == "leads" ) {
-            $checkbox_name_and_id = $id . '-MoveTo';
-            $the_id=$id;
-            $buffer .= "<tr>";
-            $buffer .= "<td style='padding:10px;'><input type='checkbox' class='checkbox_class' name='moveTo[]' id='$checkbox_name_and_id' value='$the_id' /></td>";
+            $buffer .= "<tr>
+			";
             $buffer .= "<td><textarea name = 'CompanyName' class='size_130' id='" . $rows[ 'id' ] . "-CompanyName'>" . $rows[ 'CompanyName' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'Description' class='size_200' id='" . $rows[ 'id' ] . "-Description'>" . $rows[ 'Description' ] . "</textarea></td>";
             $buffer .= "<td><textarea name = 'HotWarmCool' class='size_100' id='" . $rows[ 'id' ] . "-HotWarmCool'>" . $rows[ 'HotWarmCool' ] . "</textarea></td>";
@@ -662,7 +615,6 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
         }
         return $buffer;
     }
-
     public function update_leads_table( $content_arr ) {
         $table_name = end( $content_arr );
         //$table_name =$table_arr[1];
@@ -688,35 +640,6 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
         }
         return $result;
     }
-
-
-    public function move_row_to_new_tab($tab, $id){
-       $fields=array();
-       switch($tab){
-           case 'hot_leads':   $fields['HotWarmCool']='hot'; 
-                               break;
-           case 'cool_leads':  $fields['HotWarmCool']='cool';
-                               break;
-           case 'dc_leads':   $fields['type']='dc';
-                               break;
-           case 'we_leads':   $fields['type']='World Energy leads';
-                               break;
-           case 'walkins':   $fields['type']='Walk ins';
-                               break;
-           case 'se_leads':   $fields['type']='Solar Energy leads';
-                               break;
-           case 'prospects':   $fields['HotWarmCool']='Prospects';
-                               break;
-           case 'fu':   $fields['HotWarmCool']='Follow up';
-                               break;
-           default: break;
-       }
-       
-       $result = $this->update( PREFIX . 'leads', $fields, "`id`='$id'", "1", true );
-    }
-
-
-
     public function insert_row_to_table_table( $content_arr ) {
         $table_name = end( $content_arr );
         $fields     = array( );
@@ -725,7 +648,6 @@ $buffer.=$this->prepare_for_display_expiration_result_set($filter);
                 $fields[ $key ] = $value;
             }
         }
-
         $new_id = $this->add( PREFIX . $table_name, $fields, true );
         if ( $new_id > 1 ) {
             $new_row_content = $this->get_new_row_content( $table_name, $new_id );
